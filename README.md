@@ -13,3 +13,7 @@ Verificar Qualidade do código:
 ```commandline
 flake8
 ```
+Implementando os testes no código:
+```commandline
+unittest.mock
+```
