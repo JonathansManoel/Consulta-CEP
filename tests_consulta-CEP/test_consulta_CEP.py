@@ -10,12 +10,12 @@ def test_func_consulta_cep():
 
 
 
-# Tentando encontrar e aprender como realizar testes!
+# Tentando aprender como realizar testes!
 # def test_consulta_cep_status_code():
 #     consulta_cep.status_code == 200
 
 
-# class TesteConsutla(consulta_cep):
+# class TesteConsulta(consulta_cep):
 #     @requests_mock.Mocker()
 #     def test_status_code_200(self, r_mock):
 #         url = 'https://viacep.com.br/ws/01001000/json/'
