@@ -15,5 +15,6 @@ flake8
 ```
 Implementando os testes no código:
 ```commandline
-unittest.mock
+pytest
+responses
 ```
