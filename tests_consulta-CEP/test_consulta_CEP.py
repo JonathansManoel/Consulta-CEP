@@ -1,25 +1,39 @@
+from consulta_CEP import consultar_cep, Endereco
+import responses
 import pytest
-import consulta_CEP
-from consulta_CEP import consulta_cep
-import requests_mock
-from unittest import mock
 
 
-def test_func_consulta_cep():
-    mock.patch('consulta_CEP.consulta_cep', return_value=consulta_cep)
+@responses.activate
+def test_consultar_cep():
+    responses.add(
+        responses.GET,
+        'https://viacep.com.br/ws/01001000/json/',
+        json={
+            "cep": "01001-000",
+            "logradouro": "Praça da Sé",
+            "complemento": "lado ímpar",
+            "bairro": "Sé",
+            "localidade": "São Paulo",
+            "uf": "SP",
+            "ibge": "3550308",
+            "gia": "1004",
+            "ddd": "11",
+            "siafi": "7107"
+        },
+    )
+
+    result = consultar_cep('01001000')
+
+    assert Endereco(uf='SP', bairro='Sé', localidade='São Paulo') == result
 
 
+@responses.activate
+def test_consultar_cep_invalido():
+    responses.add(
+        responses.GET,
+        'https://viacep.com.br/ws/12312312/json/',
+        status=400
+    )
 
-# Tentando aprender como realizar testes!
-# def test_consulta_cep_status_code():
-#     consulta_cep.status_code == 200
-
-
-# class TesteConsulta(consulta_cep):
-#     @requests_mock.Mocker()
-#     def test_status_code_200(self, r_mock):
-#         url = 'https://viacep.com.br/ws/01001000/json/'
-#         r_mock.get(url, status_code=200)
-#         site = consulta_CEP.consulta_cep.r(url=url)
-#         site.consulta_cep()
-#         self.assertEqual(200, site.status)
+    with pytest.raises(ValueError):
+        consultar_cep('12312312')
